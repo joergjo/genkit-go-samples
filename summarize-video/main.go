@@ -19,6 +19,10 @@ func main() {
 	flag.StringVar(&prompt, "prompt", "Please summarize the following video:", "Prompt to use for summarization")
 	flag.Parse()
 
+	if url == "" {
+		log.Fatalf("Please provide a URL of a video to summarize using the -url flag.")
+	}
+
 	fmt.Printf("=== Summarizing video %q ===\n", url)
 
 	// Initialize genkit with Google GenAI plugin
