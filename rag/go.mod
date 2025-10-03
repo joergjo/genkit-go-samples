@@ -3,7 +3,7 @@ module github.com/joergjo/genkit-go-samples/rag
 go 1.25.1
 
 require (
-	github.com/firebase/genkit/go v1.0.4
+	github.com/firebase/genkit/go v1.0.5
 	github.com/ledongthuc/pdf v0.0.0-20250511090121-5959a4027728
 	github.com/tmc/langchaingo v0.1.13
 )
@@ -19,7 +19,7 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/goccy/go-yaml v1.17.1 // indirect
-	github.com/google/dotprompt/go v0.0.0-20250611200215-bb73406b05ca // indirect
+	github.com/google/dotprompt/go v0.0.0-20250923103342-a8a91d1dff59 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/google/uuid v1.6.0 // indirect

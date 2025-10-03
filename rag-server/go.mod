@@ -2,7 +2,7 @@ module github.com/joergjo/genkit-go-samples/rag-server
 
 go 1.25.0
 
-require github.com/firebase/genkit/go v1.0.4
+require github.com/firebase/genkit/go v1.0.5
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
@@ -37,7 +37,7 @@ require (
 	github.com/go-openapi/validate v0.25.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/goccy/go-yaml v1.17.1 // indirect
-	github.com/google/dotprompt/go v0.0.0-20250611200215-bb73406b05ca // indirect
+	github.com/google/dotprompt/go v0.0.0-20250923103342-a8a91d1dff59 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/google/uuid v1.6.0 // indirect

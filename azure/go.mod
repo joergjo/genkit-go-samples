@@ -5,7 +5,7 @@ go 1.25.1
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.12.0
-	github.com/firebase/genkit/go v1.0.4
+	github.com/firebase/genkit/go v1.0.5
 	github.com/openai/openai-go v1.12.0
 )
 
@@ -18,7 +18,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/goccy/go-yaml v1.18.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
-	github.com/google/dotprompt/go v0.0.0-20250915193815-dfe0abbaa54f // indirect
+	github.com/google/dotprompt/go v0.0.0-20250923103342-a8a91d1dff59 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/invopop/jsonschema v0.13.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
