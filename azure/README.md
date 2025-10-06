@@ -3,20 +3,22 @@
 ## About
 This sample shows hwo to build a custom [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview) plugin for Genkit Go.
 
-Why do even need a custom plugin? Genkit Go includes both an [OpenAI plugin](https://genkit.dev/docs/integrations/openai/?lang=go) and an [OpenAI-Compatible Plugin](https://genkit.dev/docs/integrations/openai-compatible/?lang=go). While Azure OpenAI's REST API is almost identical to the OpenAI REST API, there is one fundamental difference: OpenAI is model centric, whereas Azure OpenAI is endpoint centric using *deployments*. Hence, in Azure OpenAI the deployment abstracts the model and version being used. Since the deployment is an integral part of the endpoint's URL, Genkit Go must be adapted accordingly. 
+Why do even need a custom plugin? This plugin is just a thin adapter around the OpenAI plugin that wires up the Azure OpenAI endpoint. In order for this to work, you have to use the new Azure OpenAI endpoint documented [here](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/api-version-lifecycle?tabs=go), i.e. `https://YOUR-RESOURCE-NAME.openai.azure.com/openai/v1/`. 
 
-Note that the sample still requires specifying the model name even though Azure OpenAI doesn't need it. the model name is required because Genkit Go's OpenAI plugin maintains an internal catalog of OpenAI models and their capabilities, which this implementation reuses. 
+> If you are using Azure OpenAI with its older endpoints based on deployments, have a look at [this version](https://github.com/joergjo/genkit-go-samples/blob/6ea363b6cb7564d0bb5fa8f46b9c183881d33b03/azure/azopenai.go) of the sample, which shows how to adapt the OpenAI plugin for these endpoints.
 
-The sample plugin also demonstrates Entra based access to Azure OpenAI instead of using API keys. Note that this a proof of concept, since Genkit currently lacks any means for renewing short-lived credentials like OAuth2 access tokens. 
+The sample uses GPT-5-mini, so make sure to deploy this model before running the sample.
+
+The sample plugin also demonstrates Entra based access to Azure OpenAI instead of using API keys. Note that this only meant to be a proof of concept, since Genkit currently lacks any means for renewing short-lived credentials like OAuth2 access tokens. 
 
 >Make sure the user principal accessing the API has been assigned the required roles: https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/managed-identity#assign-role.    
 
 ## Running the Sample
 ```bash
 cd azure
-export AZ_OAI_ENDPOINT=<your-azure-openai-endpoint>
-export AZ_OAI_DEPLOYMENT_NAME=<your-azure-oepnai-deployment>
-export AZ_OAI_MODEL_NAME=<your-azure-openai-model>
-export AZ_OAI_API_KEY=<your-azure-openai-api-key>
+export AZ_OPENAI_BASE_URL=<your-azure-openai-endpoint>
+export AZ_OPENAI_API_KEY=<your-azure-openai-api-key>
+# optional - if you want to log API requests sent to your endpoint.
+export AZ_OPENAI_DEBUG_HTTP=true
 go run .
 ```

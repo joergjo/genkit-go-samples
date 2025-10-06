@@ -19,12 +19,10 @@ const (
 func main() {
 	ctx := context.Background()
 
-	endpoint := os.Getenv("AZ_OAI_ENDPOINT")
-	apiKey := os.Getenv("AZ_OAI_API_KEY")
-	deployment := os.Getenv("AZ_OAI_DEPLOYMENT_NAME")
-	modelName := os.Getenv("AZ_OAI_MODEL_NAME")
-	if endpoint == "" || deployment == "" || modelName == "" || apiKey == "" {
-		log.Fatal("Please export AZ_OAI_ENDPOINT, AZ_OAI_DEPLOYMENT_NAME, AZ_OAI_MODEL_NAME and AZ_OAI_API_KEY to use Azure OpenAI.")
+	endpoint := os.Getenv("AZ_OPENAI_BASE_URL")
+	apiKey := os.Getenv("AZ_OPENAI_API_KEY")
+	if endpoint == "" || apiKey == "" {
+		log.Fatal("Please export AZ_OPENAI_BASE_URL and AZ_OPENAI_API_KEY to use Azure OpenAI.")
 	}
 
 	fmt.Println("Using Entra ID authentication for Azure OpenAI")
@@ -41,12 +39,11 @@ func main() {
 
 	azOpenAI := &AzureOpenAI{
 		Endpoint:    endpoint,
-		Deployment:  deployment,
 		AccessToken: token.Token,
 	}
 
 	g := genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
-	model := azOpenAI.Model(g, modelName)
+	model := azOpenAI.Model(g, "gpt-5-mini")
 
 	text, err := generate(ctx, g, model, "Invent a menu for a pirate-themed restaurant")
 	if err != nil {
@@ -62,9 +59,8 @@ func main() {
 	fmt.Println("Using API key for Azure OpenAI")
 	// We already know that the API key is valid..
 	azOpenAI = &AzureOpenAI{
-		Endpoint:   endpoint,
-		Deployment: deployment,
-		APIKey:     apiKey,
+		Endpoint: endpoint,
+		APIKey:   apiKey,
 	}
 	g = genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
 
