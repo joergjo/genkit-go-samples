@@ -6,14 +6,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
-)
-
-const (
-	scope = "https://cognitiveservices.azure.com/.default"
 )
 
 func main() {
@@ -30,16 +25,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not create credential: %v\n", err)
 	}
-	token, err := cred.GetToken(ctx, policy.TokenRequestOptions{
-		Scopes: []string{scope},
-	})
-	if err != nil {
-		log.Fatalf("could not obtain access token: %v\n", err)
-	}
 
 	azOpenAI := &AzureOpenAI{
-		Endpoint:    endpoint,
-		AccessToken: token.Token,
+		Endpoint:        endpoint,
+		TokenCredential: cred,
 	}
 
 	g := genkit.Init(ctx, genkit.WithPlugins(azOpenAI))

@@ -9,7 +9,7 @@ Why do even need a custom plugin? This plugin is just a thin adapter around the 
 
 The sample uses GPT-5-mini, so make sure to deploy this model before running the sample.
 
-The sample plugin also demonstrates Entra based access to Azure OpenAI instead of using API keys. Note that this only meant to be a proof of concept, since Genkit currently lacks any means for renewing short-lived credentials like OAuth2 access tokens. 
+The sample plugin also demonstrates Entra based access to Azure OpenAI instead of using API keys. The underlying OpenAI SDK client will automatically refresh access tokens because of the [middleware](https://github.com/openai/openai-go/blob/c5fd07f55034e2f14d3c3566d24973b903ad5761/azure/azure.go#L98) injected by the `azure` package.  
 
 >Make sure the user principal accessing the API has been assigned the required roles: https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/managed-identity#assign-role.    
 

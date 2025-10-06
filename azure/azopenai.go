@@ -7,24 +7,26 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/firebase/genkit/go/core/api"
 	oai "github.com/firebase/genkit/go/plugins/compat_oai/openai"
+	"github.com/openai/openai-go/azure"
 	"github.com/openai/openai-go/option"
 )
 
 type AzureOpenAI struct {
 	*oai.OpenAI
-	APIKey      string
-	AccessToken string
-	Endpoint    string
+	APIKey          string
+	TokenCredential azcore.TokenCredential
+	Endpoint        string
 }
 
 func (a *AzureOpenAI) Init(ctx context.Context) []api.Action {
-	if a.APIKey == "" && a.AccessToken == "" || a.APIKey != "" && a.AccessToken != "" {
-		panic("azopenai plugin initialization failed: either APIKey or AccessToken is required")
+	if a.APIKey == "" && a.TokenCredential == nil || a.APIKey != "" && a.TokenCredential != nil {
+		panic("Azure OpenAI plugin initialization failed: either APIKey or TokenCredential is required")
 	}
 	if a.Endpoint == "" {
-		panic("azopenai plugin initialization failed: Endpoint is required")
+		panic("Azure OpenAI plugin initialization failed: Endpoint is required")
 	}
 
 	if a.OpenAI == nil {
@@ -38,10 +40,10 @@ func (a *AzureOpenAI) Init(ctx context.Context) []api.Action {
 
 		switch a.APIKey {
 		case "":
-			// Satisfy OpenAI's requirement for a non-empty string
+			// Satisfy the OpenAI plugin's requirement for a non-empty string
 			a.OpenAI.APIKey = "notused"
-			// Set "Authorization" header with bearer token
-			a.OpenAI.Opts = append(a.OpenAI.Opts, option.WithHeader("Authorization", "Bearer "+a.AccessToken))
+			// Inject bearer token middleware
+			a.OpenAI.Opts = append(a.OpenAI.Opts, azure.WithTokenCredential(a.TokenCredential))
 		default:
 			a.OpenAI.APIKey = a.APIKey
 		}
