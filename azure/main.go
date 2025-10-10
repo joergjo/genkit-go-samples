@@ -14,10 +14,10 @@ import (
 func main() {
 	ctx := context.Background()
 
-	endpoint := os.Getenv("AZ_OPENAI_BASE_URL")
+	baseURL := os.Getenv("AZ_OPENAI_BASE_URL")
 	apiKey := os.Getenv("AZ_OPENAI_API_KEY")
-	if endpoint == "" || apiKey == "" {
-		log.Fatal("Please export AZ_OPENAI_BASE_URL and AZ_OPENAI_API_KEY to use Azure OpenAI.")
+	if baseURL == "" || apiKey == "" {
+		log.Fatal("export AZ_OPENAI_BASE_URL and AZ_OPENAI_API_KEY to run this sample")
 	}
 
 	fmt.Println("Using Entra ID authentication for Azure OpenAI")
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	azOpenAI := &AzureOpenAI{
-		BaseURL:         endpoint,
+		BaseURL:         baseURL,
 		TokenCredential: cred,
 	}
 
@@ -36,8 +36,7 @@ func main() {
 
 	text, err := generate(ctx, g, model, "Invent a menu for a pirate-themed restaurant")
 	if err != nil {
-		fmt.Printf("could not generate model response: %v\n", err)
-		os.Exit(1)
+		log.Fatalf("could not generate model response: %v\n", err)
 	}
 	fmt.Println(text)
 
@@ -46,9 +45,9 @@ func main() {
 	fmt.Println("")
 
 	fmt.Println("Using API key for Azure OpenAI")
-	// We already know that the API key is valid..
+	// We already know that the API key is not empty.
 	azOpenAI = &AzureOpenAI{
-		BaseURL: endpoint,
+		BaseURL: baseURL,
 		APIKey:  apiKey,
 	}
 	g = genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
@@ -67,7 +66,7 @@ func generate(ctx context.Context, g *genkit.Genkit, model ai.Model, prompt stri
 		ai.WithPrompt(prompt),
 		ai.WithModel(model))
 	if err != nil {
-		return "", fmt.Errorf("could not generate model response: %w", err)
+		return "", err
 	}
 	return resp.Text(), nil
 }

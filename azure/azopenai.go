@@ -38,14 +38,12 @@ func (a *AzureOpenAI) Init(ctx context.Context) []api.Action {
 			},
 		}
 
-		switch a.APIKey {
-		case "":
+		// If no API key is provided, use TokenCredential (Entra) for authorization
+		if a.APIKey == "" {
 			// Satisfy the OpenAI plugin's requirement for a non-empty string
 			a.OpenAI.APIKey = "notused"
 			// Inject bearer token middleware
 			a.OpenAI.Opts = append(a.OpenAI.Opts, azure.WithTokenCredential(a.TokenCredential))
-		default:
-			a.OpenAI.APIKey = a.APIKey
 		}
 	}
 
