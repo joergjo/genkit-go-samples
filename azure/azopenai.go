@@ -18,14 +18,14 @@ type AzureOpenAI struct {
 	*oai.OpenAI
 	APIKey          string
 	TokenCredential azcore.TokenCredential
-	Endpoint        string
+	BaseURL         string
 }
 
 func (a *AzureOpenAI) Init(ctx context.Context) []api.Action {
 	if a.APIKey == "" && a.TokenCredential == nil || a.APIKey != "" && a.TokenCredential != nil {
 		panic("Azure OpenAI plugin initialization failed: either APIKey or TokenCredential is required")
 	}
-	if a.Endpoint == "" {
+	if a.BaseURL == "" {
 		panic("Azure OpenAI plugin initialization failed: Endpoint is required")
 	}
 
@@ -34,7 +34,7 @@ func (a *AzureOpenAI) Init(ctx context.Context) []api.Action {
 		a.OpenAI = &oai.OpenAI{
 			APIKey: a.APIKey,
 			Opts: []option.RequestOption{
-				option.WithBaseURL(a.Endpoint),
+				option.WithBaseURL(a.BaseURL),
 			},
 		}
 

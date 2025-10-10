@@ -27,7 +27,7 @@ func main() {
 	}
 
 	azOpenAI := &AzureOpenAI{
-		Endpoint:        endpoint,
+		BaseURL:         endpoint,
 		TokenCredential: cred,
 	}
 
@@ -48,8 +48,8 @@ func main() {
 	fmt.Println("Using API key for Azure OpenAI")
 	// We already know that the API key is valid..
 	azOpenAI = &AzureOpenAI{
-		Endpoint: endpoint,
-		APIKey:   apiKey,
+		BaseURL: endpoint,
+		APIKey:  apiKey,
 	}
 	g = genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
 
