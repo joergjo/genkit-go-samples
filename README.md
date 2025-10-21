@@ -10,11 +10,17 @@ Some of the samples require the use of the [Genkit CLI](https://genkit.dev/docs/
 ## Table of Contents
 [azure](./azure/): This sample demonstrates building a custom [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview) plugin based on Genkit Go's [OpenAI plugin](https://genkit.dev/docs/integrations/openai/?lang=go).
 
+[dotprompt](./dotprompt/): This sample demonstrates externalizing prompt templates using Genkit Go's [Dotprompt](https://github.com/google/dotprompt) support.  
+
+[mcp-server](./mcp-server/): This sample demonstrates building a simple MPC server with Genkit Go and integrating it with [Claude Desktop](https://claude.ai/download). 
+
 [mistral](./mistral/): This sample demonstrates using the [genkit-mistral](https://pkg.go.dev/github.com/thomas-marquis/genkit-mistral) plugin.
 
 [rag](./rag/): A RAG (retrieval augmentend generation) sample that demonstrates using Genkt Go's Dev Local Vector Store based on Genkit Go's RAG documentation.
 
 [rag-server](./rag-server/): This sample is an updated version of the [demo application](https://github.com/golang/example/tree/master/ragserver/ragserver-genkit) published by the Go team for Genkit Go's alpha version.
+
+[tools](./tools/): This sample demonstrates Genkit Go's tool calling capabilities based on a fictitious home automation scenario. 
 
 [summarize-video](./summarize-video/): A Go version of the [JavaScript tutorial](https://genkit.dev/docs/tutorials/summarize-youtube-videos/) published by the Genkit team.
 
