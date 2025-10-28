@@ -20,6 +20,16 @@ func main() {
 		log.Fatal("export AZ_OPENAI_BASE_URL and AZ_OPENAI_API_KEY to run this sample")
 	}
 
+	deployment := os.Getenv("AZ_OPENAI_DEPLOYMENT")
+	modelName := "gpt-5-mini"
+	switch deployment {
+	case "":
+		fmt.Println("AZ_OPENAI_DEPLOYMENT not set, using Azure OpenAI v1 API")
+	default:
+		modelName = deployment
+		fmt.Printf("Using deployment %q\n", deployment)
+	}
+
 	fmt.Println("Using Entra ID authentication for Azure OpenAI")
 	cred, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -28,11 +38,12 @@ func main() {
 
 	azOpenAI := &AzureOpenAI{
 		BaseURL:         baseURL,
+		Deployment:      deployment,
 		TokenCredential: cred,
 	}
 
 	g := genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
-	model := azOpenAI.Model(g, "gpt-5-mini")
+	model := azOpenAI.Model(g, modelName)
 
 	text, err := generate(ctx, g, model, "Invent a menu for a pirate-themed restaurant")
 	if err != nil {
@@ -47,8 +58,9 @@ func main() {
 	fmt.Println("Using API key for Azure OpenAI")
 	// We already know that the API key is not empty.
 	azOpenAI = &AzureOpenAI{
-		BaseURL: baseURL,
-		APIKey:  apiKey,
+		BaseURL:    baseURL,
+		Deployment: deployment,
+		APIKey:     apiKey,
 	}
 	g = genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
 
