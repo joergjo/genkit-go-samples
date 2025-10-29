@@ -41,6 +41,6 @@ Add the following MCP server definition to Claude Desktop's configuration file. 
 
 After you have updated the configuration file, restart Claude Desktop and ask for the current time in a city of your choice.
 
-![Using the MPC server with  Claude Desktop](media/claude-desktop.png)
+![Using the MPC server with Claude Desktop](media/claude-desktop.png)
 
-Note that Claude Desktop is smart enough to pick a suitable NTP host such as `time.google.com` or `time.windows.com` &mdash; there is no default host provided in our sample MCP server code!
+Note that Claude Desktop is smart enough to pick a suitable NTP host such as `time.google.com` or `time.windows.com`—there is no default host provided in our sample MCP server code!

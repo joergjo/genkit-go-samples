@@ -1,7 +1,7 @@
 # Summarize Video Sample
 
 ## About
-This is my Go version of the JavaScriot tutorial in Genkit's documentation: https://genkit.dev/docs/tutorials/summarize-youtube-videos/. At the time of writing, there was no Go version available, but it was very simple to adapt the JavaScript version.
+This is my Go version of the JavaScript tutorial in Genkit's documentation: https://genkit.dev/docs/tutorials/summarize-youtube-videos/. At the time of writing, there was no Go version available, but it was very simple to adapt the JavaScript version.
 
 ## Running the Sample
 ```bash
