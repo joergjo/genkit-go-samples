@@ -1,9 +1,9 @@
 # Azure OpenAI pgvector Sample
 
 ## About
-This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using PostgreSQL and the [pgvector](https://github.com/pgvector/pgvector) extension.
+This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using PostgreSQL and the [pgvector extension](https://github.com/pgvector/pgvector). It is based on the original [`pgvector` sample](https://github.com/firebase/genkit/tree/genkit%401.22.0/go/samples/pgvector) for Genkit Go that uses Google's `embedding-001` model. This sample uses Azure OpenAI's `text-embedding-3-small` instead.
 
-The sample uses `text-embedding-3-small`, so make sure to deploy this model before running the sample. The code assumes you are using Azure OpenAI `v1`, so make sure to specify the correct base URL (i.e., ending with `/opeani/v1`). 
+Deploy `text-embedding-3-small` to your Azure OpenAI resource or Azure AI Foundry project before running the sample. The sample uses the Azure OpenAI `v1` API, so make sure to specify the correct base URL (i.e., ending with `/openai/v1`). 
 
 ## Running the Sample
 Open two terminal windows or tabs in your preferred terminal application.
