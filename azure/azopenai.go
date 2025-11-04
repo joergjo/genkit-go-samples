@@ -72,6 +72,7 @@ func (a *AzureOpenAI) init() {
 
 func (a *AzureOpenAI) initWithDeployment() {
 	// Build the effective base URL with deployment path
+	// Note: This should never fail unless BaseURL was a non-empty string that is not a valid URL
 	u, err := url.JoinPath(a.BaseURL, "openai", "deployments", a.Deployment)
 	if err != nil {
 		panic(fmt.Sprintf("unexpected error generating base URL: %v", err))
