@@ -58,7 +58,7 @@ func run(g *genkit.Genkit, aoai *AzureOpenAI) error {
 	ctx := context.Background()
 	embedder := aoai.Embedder(g, embedderName)
 	if embedder == nil {
-		return fmt.Errorf("embedder %s is not known to the googlegenai plugin", embedderName)
+		return fmt.Errorf("failed to create embedder %s", embedderName)
 	}
 
 	db, err := sql.Open("postgres", *connString)
