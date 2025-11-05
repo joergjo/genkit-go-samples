@@ -36,7 +36,7 @@ func main() {
 
 	flag.Parse()
 	ctx := context.Background()
-	azOpenAI := &AzureOpenAI{
+	aoai := &AzureOpenAI{
 		BaseURL: baseURL,
 		APIKey:  apiKey,
 		// The sample assumes the use of the Azure OpenAI v1 API version.
@@ -45,8 +45,8 @@ func main() {
 		// uncomment the following line.
 		// Deployment: embedderName,
 	}
-	g := genkit.Init(ctx, genkit.WithPlugins(azOpenAI))
-	if err := run(g, azOpenAI); err != nil {
+	g := genkit.Init(ctx, genkit.WithPlugins(aoai))
+	if err := run(g, aoai); err != nil {
 		log.Fatal(err)
 	}
 }
