@@ -24,7 +24,7 @@ export AZ_OPENAI_API_KEY=<your-azure-openai-api-key>
 export GENKIT_ENV='dev'
 
 # The init flag triggers the embedding generation
-go run . -init
+go run . -dbconn "sqlserver://<username>:<password>@<servername>.database.windows.net?database=<database-name>" -index
 ```
 
 ### Run Vector Search Flow 
