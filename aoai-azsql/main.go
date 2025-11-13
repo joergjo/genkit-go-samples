@@ -1,0 +1,230 @@
+package main
+
+import (
+	"context"
+	"database/sql"
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+
+	"github.com/firebase/genkit/go/ai"
+	"github.com/firebase/genkit/go/core/api"
+	"github.com/firebase/genkit/go/genkit"
+	"github.com/microsoft/go-mssqldb/azuread"
+)
+
+const (
+	provider     = "azsql"
+	embedderName = "text-embedding-3-small"
+)
+
+var (
+	connString = flag.String("dbconn", "", "database connection string")
+	index      = flag.Bool("index", false, "index the existing data")
+)
+
+func main() {
+	baseURL := os.Getenv("AZ_OPENAI_BASE_URL")
+	apiKey := os.Getenv("AZ_OPENAI_API_KEY")
+	if baseURL == "" || apiKey == "" {
+		log.Fatal("export AZ_OPENAI_BASE_URL and AZ_OPENAI_API_KEY to run this sample")
+	}
+
+	flag.Parse()
+	ctx := context.Background()
+	aoai := &AzureOpenAI{
+		BaseURL: baseURL,
+		APIKey:  apiKey,
+		// The sample assumes the use of the Azure OpenAI v1 API version.
+		// If you want to use 2024-10-21 instead, make sure to deploy the
+		// text-embedding-3-small model with exactly that deployment name and
+		// uncomment the following line.
+		// Deployment: embedderName,
+	}
+	g := genkit.Init(ctx, genkit.WithPlugins(aoai))
+	if err := run(g, aoai); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func run(g *genkit.Genkit, aoai *AzureOpenAI) error {
+	if *connString == "" {
+		return errors.New("need -dbconn")
+	}
+	ctx := context.Background()
+	embedder := aoai.Embedder(g, embedderName)
+	if embedder == nil {
+		return fmt.Errorf("failed to create embedder %s", embedderName)
+	}
+
+	db, err := sql.Open(azuread.DriverName, *connString)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	if *index {
+		if err := indexExistingRows(ctx, g, db, embedder); err != nil {
+			return err
+		}
+	}
+
+	retOpts := &ai.RetrieverOptions{
+		ConfigSchema: nil,
+		Label:        "azureSQL",
+		Supports: &ai.RetrieverSupports{
+			Media: false,
+		},
+	}
+	retriever := defineRetriever(g, db, embedder, retOpts)
+
+	type input struct {
+		Question string
+		Show     string
+	}
+
+	genkit.DefineFlow(g, "askQuestion", func(ctx context.Context, in input) (string, error) {
+		res, err := genkit.Retrieve(ctx, g,
+			ai.WithRetriever(retriever),
+			ai.WithConfig(in.Show),
+			ai.WithTextDocs(in.Question))
+		if err != nil {
+			return "", err
+		}
+		for _, doc := range res.Documents {
+			fmt.Printf("%+v %q\n", doc.Metadata, doc.Content[0].Text)
+		}
+		// Use documents in RAG prompts.
+		return "", nil
+	})
+
+	sigCtx, stop := signal.NotifyContext(ctx, os.Interrupt)
+	defer stop()
+	fmt.Println("Press Ctrl-C to stop")
+	<-sigCtx.Done()
+	return nil
+}
+
+func defineRetriever(g *genkit.Genkit, db *sql.DB, embedder ai.Embedder, retOpts *ai.RetrieverOptions) ai.Retriever {
+	f := func(ctx context.Context, req *ai.RetrieverRequest) (*ai.RetrieverResponse, error) {
+		eres, err := genkit.Embed(ctx, g,
+			ai.WithEmbedder(embedder),
+			ai.WithDocs(req.Query))
+		if err != nil {
+			return nil, err
+		}
+		vector, err := json.Marshal(eres.Embeddings[0].Embedding)
+		if err != nil {
+			return nil, err
+		}
+
+		rows, err := db.QueryContext(ctx, `
+			SELECT TOP(2) episode_id, season_number, chunk as content
+			FROM embeddings
+			WHERE show_id = @show_id
+		  	ORDER BY VECTOR_DISTANCE('dot', embedding, CAST(@embedding AS VECTOR(1536)))
+			`,
+			sql.Named("show_id", req.Options),
+			sql.Named("embedding", string(vector)))
+		if err != nil {
+			return nil, err
+		}
+		defer rows.Close()
+
+		res := &ai.RetrieverResponse{}
+		for rows.Next() {
+			var eid, sn int
+			var content string
+			if err := rows.Scan(&eid, &sn, &content); err != nil {
+				return nil, err
+			}
+			meta := map[string]any{
+				"episode_id":    eid,
+				"season_number": sn,
+			}
+			doc := &ai.Document{
+				Content:  []*ai.Part{ai.NewTextPart(content)},
+				Metadata: meta,
+			}
+			res.Documents = append(res.Documents, doc)
+		}
+		if err := rows.Err(); err != nil {
+			return nil, err
+		}
+		return res, nil
+	}
+	return genkit.DefineRetriever(g, api.NewName(provider, "shows"), retOpts, f)
+}
+
+// Helper function to get started with indexing
+func Index(ctx context.Context, g *genkit.Genkit, db *sql.DB, embedder ai.Embedder, docs []*ai.Document) error {
+	// The indexer assumes that each Document has a single part, to be embedded, and metadata fields
+	// for the table primary key: show_id, season_number, episode_id.
+	const query = `
+			UPDATE embeddings
+			SET embedding = @embedding
+			WHERE show_id = @show_id AND season_number = @season_number AND episode_id = @episode_id
+		`
+	res, err := genkit.Embed(ctx, g,
+		ai.WithEmbedder(embedder),
+		ai.WithDocs(docs...))
+	if err != nil {
+		return err
+	}
+	// You may want to use your database's batch functionality to insert the embeddings
+	// more efficiently.
+	for i, emb := range res.Embeddings {
+		doc := docs[i]
+		args := make([]any, 4)
+		for j, k := range []string{"show_id", "season_number", "episode_id"} {
+			if a, ok := doc.Metadata[k]; ok {
+				args[j] = sql.Named(k, a)
+			} else {
+				return fmt.Errorf("doc[%d]: missing metadata key %q", i, k)
+			}
+		}
+		vector, err := json.Marshal(emb.Embedding)
+		if err != nil {
+			return err
+		}
+		args[3] = sql.Named("embedding", string(vector))
+		if _, err := db.ExecContext(ctx, query, args...); err != nil {
+			return err
+		}
+	}
+	return nil
+
+}
+
+func indexExistingRows(ctx context.Context, g *genkit.Genkit, db *sql.DB, embedder ai.Embedder) error {
+	rows, err := db.QueryContext(ctx, `SELECT show_id, season_number, episode_id, chunk FROM embeddings`)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	var docs []*ai.Document
+	for rows.Next() {
+		var sid, chunk string
+		var sn, eid int
+		if err := rows.Scan(&sid, &sn, &eid, &chunk); err != nil {
+			return err
+		}
+		docs = append(docs, &ai.Document{
+			Content: []*ai.Part{ai.NewTextPart(chunk)},
+			Metadata: map[string]any{
+				"show_id":       sid,
+				"season_number": sn,
+				"episode_id":    eid,
+			},
+		})
+	}
+	if err := rows.Err(); err != nil {
+		return err
+	}
+	return Index(ctx, g, db, embedder, docs)
+}
