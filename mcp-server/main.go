@@ -34,7 +34,7 @@ func main() {
 
 	rc := 0
 	slog.Info("starting MCP server on stdout")
-	if err := server.Serve(ctx); err != nil {
+	if err := server.ServeStdio(); err != nil {
 		slog.Error("MCP server exited with error", "error", err)
 		rc = 1
 	}
