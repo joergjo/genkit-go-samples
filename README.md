@@ -8,6 +8,8 @@ Some of the samples require the use of the [Genkit CLI](https://genkit.dev/docs/
 >Genkit supports macOS, Windows, and Linux. These samples have been built and tested on macOS 26 Tahoe.
 
 ## Table of Contents
+[aoai-azsql](./aoai-azsql/): This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using Azure SQL's native vector type and functions.
+
 [aoai-pgvector](./aoai-pgvector/): This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using PostgreSQL and the [pgvector](https://github.com/pgvector/pgvector) extension.
 
 [azure](./azure/): This sample demonstrates building a custom [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/overview) plugin based on Genkit Go's [OpenAI plugin](https://genkit.dev/docs/integrations/openai/?lang=go).
