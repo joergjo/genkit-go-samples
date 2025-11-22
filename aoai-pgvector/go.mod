@@ -3,8 +3,8 @@ module github.com/joergjo/genkit-go-samples/aoai-pgvector
 go 1.25.3
 
 require (
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
-	github.com/firebase/genkit/go v1.1.0
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.20.0
+	github.com/firebase/genkit/go v1.2.0
 	github.com/lib/pq v1.10.9
 	github.com/openai/openai-go v1.12.0
 	github.com/pgvector/pgvector-go v0.3.0
@@ -17,7 +17,7 @@ require (
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/goccy/go-yaml v1.18.0 // indirect
-	github.com/google/dotprompt/go v0.0.0-20251029001020-4b02bdcd4e7a // indirect
+	github.com/google/dotprompt/go v0.0.0-20251121213842-db5416a4f7ce // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/invopop/jsonschema v0.13.0 // indirect
 	github.com/mailru/easyjson v0.9.1 // indirect
@@ -36,8 +36,8 @@ require (
 	go.opentelemetry.io/otel/metric v1.38.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.38.0 // indirect
 	go.opentelemetry.io/otel/trace v1.38.0 // indirect
-	golang.org/x/net v0.46.0 // indirect
-	golang.org/x/sys v0.37.0 // indirect
-	golang.org/x/text v0.30.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
