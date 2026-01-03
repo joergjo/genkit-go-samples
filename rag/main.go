@@ -48,7 +48,7 @@ func main() {
 	g := genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}))
 
 	docStore, pdfRetriever, err := localvec.DefineRetriever(
-		g, "travelQA", localvec.Config{Embedder: googlegenai.GoogleAIEmbedder(g, "text-embedding-004")}, nil)
+		g, "travelQA", localvec.Config{Embedder: googlegenai.GoogleAIEmbedder(g, "gemini-embedding-001")}, nil)
 	if err != nil {
 		log.Fatalf("unable to create docstore/retriever: %v", err)
 	}

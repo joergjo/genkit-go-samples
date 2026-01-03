@@ -32,7 +32,7 @@ provide information from the context along with general knowledge.
 
 func main() {
 	generativeModelName := cmp.Or(os.Getenv("GENKIT_MODEL"), "googleai/gemini-2.5-flash")
-	embeddingModelName := cmp.Or(os.Getenv("EMBEDDING_MODEL"), "text-embedding-004")
+	embeddingModelName := cmp.Or(os.Getenv("EMBEDDING_MODEL"), "gemini-embedding-001")
 
 	ctx := context.Background()
 
