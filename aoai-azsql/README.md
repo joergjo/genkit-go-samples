@@ -17,7 +17,7 @@ Open two terminal windows or tabs in your preferred terminal application.
 In window/tab #1
 
 ```bash
-cd aoai-pgvector
+cd aoai-azsql
 
 export AZ_OPENAI_BASE_URL=<your-azure-openai-endpoint>
 export AZ_OPENAI_API_KEY=<your-azure-openai-api-key>

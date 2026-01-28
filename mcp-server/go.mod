@@ -4,7 +4,7 @@ go 1.25.3
 
 require (
 	github.com/beevik/ntp v1.5.0
-	github.com/firebase/genkit/go v1.2.0
+	github.com/firebase/genkit/go v1.4.0
 )
 
 require (

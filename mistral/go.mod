@@ -3,7 +3,7 @@ module github.com/joergjo/genkit-go-samples/mistral
 go 1.25.1
 
 require (
-	github.com/firebase/genkit/go v1.2.0
+	github.com/firebase/genkit/go v1.4.0
 	github.com/thomas-marquis/genkit-mistral v0.5.0
 )
 

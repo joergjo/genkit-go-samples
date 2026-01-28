@@ -100,7 +100,7 @@ func main() {
 
 		// Call Generate, including the menu information in your prompt
 		return genkit.GenerateText(ctx, g,
-			ai.WithModelName("googleai/gemini-2.5-flash"),
+			ai.WithModelName("googleai/gemini-3-flash-preview"),
 			ai.WithDocs(resp.Documents...),
 			ai.WithSystem(`
 You are an AI assistant that helps with travel-related inquiries, offering tips, advice, and recommendations 

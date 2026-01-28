@@ -43,7 +43,7 @@ func main() {
 	ctx := context.Background()
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(&googlegenai.GoogleAI{}),
-		genkit.WithDefaultModel("googleai/gemini-2.5-flash"))
+		genkit.WithDefaultModel("googleai/gemini-3-flash-preview"))
 
 	operateLight := genkit.DefineTool(g, "operateLight", "Turns the lights on or off in the living room, kitchen, bedroom or garage",
 		func(ctx *ai.ToolContext, input LightOperation) (string, error) {
@@ -85,7 +85,6 @@ func main() {
 		})
 
 	prompts := []string{
-		"Turn on the lights in the kitchen.",
 		"Open the windows of the bedroom, turn the lights off and put on Shawnshank Redemption on the TV.",
 		"Close the garage door and turn off the lights in all rooms.",
 		"Turn off the lights in all rooms and play a movie in which Tom Cruise plays a lawyer in the living room.",

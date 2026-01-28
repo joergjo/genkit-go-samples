@@ -20,7 +20,7 @@ type Agent struct {
 
 func NewAgent(ctx context.Context, getUserMessage func(context.Context) (string, bool)) *Agent {
 	a := &Agent{getUserMessage: getUserMessage}
-	g := genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}), genkit.WithDefaultModel("googleai/gemini-2.5-flash"))
+	g := genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}), genkit.WithDefaultModel("googleai/gemini-3-flash-preview"))
 	readFile := genkit.DefineTool(g, ReadFileDefinition.Name, ReadFileDefinition.Description, ReadFile)
 	listFiles := genkit.DefineTool(g, ListFilesDescription.Name, ListFilesDescription.Description, ListFiles)
 	editFile := genkit.DefineTool(g, EditFileDescription.Name, EditFileDescription.Description, EditFile)

@@ -3,8 +3,8 @@ module github.com/joergjo/genkit-go-samples/summarize-video
 go 1.25.1
 
 require (
-	github.com/firebase/genkit/go v1.2.0
-	google.golang.org/genai v1.36.0
+	github.com/firebase/genkit/go v1.4.0
+	google.golang.org/genai v1.41.0
 )
 
 require (
