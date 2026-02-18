@@ -10,7 +10,7 @@ import (
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/thomas-marquis/genkit-mistral/mistral"
-	"github.com/thomas-marquis/genkit-mistral/mistralclient"
+	mistralclient "github.com/thomas-marquis/mistral-client/mistral"
 )
 
 func main() {
@@ -21,8 +21,7 @@ func main() {
 
 	ctx := context.Background()
 
-	g := genkit.Init(ctx, genkit.WithPlugins(mistral.NewPlugin(apiKey, mistral.WithClientConfig(mistralclient.Config{
-		ClientTimeout: time.Duration(60 * time.Second)}))),
+	g := genkit.Init(ctx, genkit.WithPlugins(mistral.NewPlugin(apiKey, mistral.WithClientOptions(mistralclient.WithClientTimeout(time.Duration(60*time.Second))))),
 		genkit.WithDefaultModel("mistral/mistral-small-latest"))
 
 	// Simple chat completion

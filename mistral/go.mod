@@ -4,7 +4,8 @@ go 1.25.1
 
 require (
 	github.com/firebase/genkit/go v1.4.0
-	github.com/thomas-marquis/genkit-mistral v0.5.0
+	github.com/thomas-marquis/genkit-mistral v0.6.1
+	github.com/thomas-marquis/mistral-client v0.4.0
 )
 
 require (
@@ -29,5 +30,6 @@ require (
 	go.opentelemetry.io/otel/sdk v1.38.0 // indirect
 	go.opentelemetry.io/otel/trace v1.38.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/time v0.14.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
