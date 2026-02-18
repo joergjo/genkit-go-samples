@@ -1,4 +1,4 @@
-# Azure OpenAI pgvector Sample
+# Azure OpenAI Azure SQL Database Vector Sample
 
 ## About
 This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using Azure SQL's [native vector type and functions](https://learn.microsoft.com/en-us/sql/t-sql/data-types/vector-data-type?view=azuresqldb-current&tabs=csharp). It is based on the original [`pgvector` sample](https://github.com/firebase/genkit/tree/genkit%401.22.0/go/samples/pgvector) for Genkit Go that uses Google's `embedding-001` model. This sample uses Azure OpenAI's `text-embedding-3-small` instead.
