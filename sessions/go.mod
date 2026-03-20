@@ -2,7 +2,7 @@ module github.com/joergjo/genkit-go-samples/sessions
 
 go 1.26.1
 
-require github.com/firebase/genkit/go v1.4.0
+require github.com/firebase/genkit/go v1.5.0
 
 require (
 	cloud.google.com/go v0.120.0 // indirect
