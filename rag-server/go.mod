@@ -2,7 +2,7 @@ module github.com/joergjo/genkit-go-samples/rag-server
 
 go 1.25.0
 
-require github.com/firebase/genkit/go v1.5.1
+require github.com/firebase/genkit/go v1.6.0
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
