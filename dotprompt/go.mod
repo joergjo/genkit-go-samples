@@ -2,7 +2,7 @@ module github.com/joergjo/genkit-go-samples/dotprompt
 
 go 1.25.3
 
-require github.com/firebase/genkit/go v1.6.0
+require github.com/firebase/genkit/go v1.6.1
 
 require (
 	cloud.google.com/go v0.123.0 // indirect

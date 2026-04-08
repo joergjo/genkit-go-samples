@@ -5,7 +5,7 @@ go 1.25.1
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.1
-	github.com/firebase/genkit/go v1.6.0
+	github.com/firebase/genkit/go v1.6.1
 	github.com/openai/openai-go v1.12.0
 )
 
