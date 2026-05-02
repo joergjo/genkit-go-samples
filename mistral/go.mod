@@ -3,7 +3,7 @@ module github.com/joergjo/genkit-go-samples/mistral
 go 1.25.1
 
 require (
-	github.com/firebase/genkit/go v1.6.1
+	github.com/firebase/genkit/go v1.7.0
 	github.com/thomas-marquis/genkit-mistral v0.6.1
 	github.com/thomas-marquis/mistral-client v0.5.0
 )
@@ -14,6 +14,7 @@ require (
 	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/coder/websocket v1.8.14 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/goccy/go-yaml v1.18.0 // indirect

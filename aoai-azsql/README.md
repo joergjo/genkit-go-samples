@@ -37,4 +37,4 @@ genkit flow:run askQuestion '{"Show": "Best Friends", "Question": "Who does Alic
 
 The vector search result is written as log output to stderr (i.e., in terminal/tab #1).
 
-![Vector search output](media/output.jpg)
+![Vector search output](media/output.png)
