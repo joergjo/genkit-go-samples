@@ -4,7 +4,7 @@ go 1.25.7
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.1
-	github.com/firebase/genkit/go v1.7.0
+	github.com/firebase/genkit/go v1.8.0
 	github.com/microsoft/go-mssqldb v1.10.0
 	github.com/openai/openai-go v1.12.0
 )
