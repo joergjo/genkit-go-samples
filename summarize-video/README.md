@@ -9,7 +9,7 @@ cd summarize-video
 export GEMINI_API_KEY=<your-api-key>
 
 # Use the default prompt
-go run . -url "https://www.youtube.com/watch?v=kj80m-umOxs&t=2s"
+go run . -url "https://www.youtube.com/watch?v=QNA-JB9YjAk"
 
 # Use your own prompt
 go run . -url "https://www.youtube.com/watch?v=YUgXJkNqH9Q" -prompt "Please provide a concise summary of the video segments that pertain to Genkit"

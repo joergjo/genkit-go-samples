@@ -3,7 +3,7 @@ module github.com/joergjo/genkit-go-samples/summarize-video
 go 1.25.1
 
 require (
-	github.com/firebase/genkit/go v1.6.1
+	github.com/firebase/genkit/go v1.10.0
 	google.golang.org/genai v1.52.1
 )
 
@@ -14,6 +14,7 @@ require (
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/coder/websocket v1.8.14 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
