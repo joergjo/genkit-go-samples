@@ -7,7 +7,7 @@ require (
 	github.com/firebase/genkit/go v1.10.0
 	github.com/lib/pq v1.12.3
 	github.com/openai/openai-go v1.12.0
-	github.com/pgvector/pgvector-go v0.3.0
+	github.com/pgvector/pgvector-go v0.4.0
 )
 
 require (
