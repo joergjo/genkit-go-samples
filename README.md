@@ -5,7 +5,7 @@ This repository contains code samples for the [Genkit Go framework](https://genk
 
 Some of the samples require the use of the [Genkit CLI](https://genkit.dev/docs/devtools/?lang=go#command-line-interface-cli-1).
 
->Genkit supports macOS, Windows, and Linux. These samples have been built and tested on macOS 26 Tahoe.
+>Genkit supports macOS, Windows, and Linux. These samples have been built and tested on macOS 27 Golden Gate.
 
 ## Table of Contents
 [aoai-azsql](./aoai-azsql/): This sample shows how to use the [Azure OpenAI sample plugin](./azure/) for embedding creation and vector search using Azure SQL's native vector type and functions.
@@ -29,6 +29,3 @@ Some of the samples require the use of the [Genkit CLI](https://genkit.dev/docs/
 [tools](./tools/): This sample demonstrates Genkit Go's [tool calling](https://genkit.dev/docs/tool-calling/?lang=go) capabilities based on a fictitious home automation scenario. 
 
 [summarize-video](./summarize-video/): A Go version of the [JavaScript tutorial](https://genkit.dev/docs/tutorials/summarize-youtube-videos/) published by the Genkit team.
-
-## Other Samples
-I've also published a Go SDK for Microsoft's Foundry Local. An example for using Genkit Go with Foundry Local is in that repo's [example folder](https://github.com/joergjo/go-foundry-local/tree/main/examples/genkit-go). 
