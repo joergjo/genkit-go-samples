@@ -21,7 +21,7 @@ func main() {
 	}
 
 	deployment := os.Getenv("AZ_OPENAI_DEPLOYMENT")
-	modelName := "gpt-5-mini"
+	modelName := "gpt-6-luna"
 	switch deployment {
 	case "":
 		fmt.Println("AZ_OPENAI_DEPLOYMENT not set, using Azure OpenAI v1 API")

@@ -47,8 +47,17 @@ func main() {
 
 	g := genkit.Init(ctx, genkit.WithPlugins(&googlegenai.GoogleAI{}))
 
+	if err := localvec.Init(); err != nil {
+		log.Fatalf("unable to initialize local vector store: %v", err)
+	}
+
+	embedder := genkit.LookupEmbedder(g, "googleai/gemini-embedding-001")
+	if embedder == nil {
+		log.Fatalf("unable to find embedder: googleai/gemini-embedding-001")
+	}
+
 	docStore, pdfRetriever, err := localvec.DefineRetriever(
-		g, "travelQA", localvec.Config{Embedder: googlegenai.GoogleAIEmbedder(g, "gemini-embedding-001")}, nil)
+		g, "travelQA", localvec.Config{Embedder: embedder}, nil)
 	if err != nil {
 		log.Fatalf("unable to create docstore/retriever: %v", err)
 	}
@@ -84,9 +93,6 @@ func main() {
 				"documentsIndexed": len(docs),
 			}, nil
 		})
-	if err := localvec.Init(); err != nil {
-		log.Fatalf("unable to index documents: %v", err)
-	}
 
 	genkit.DefineFlow(g, "travelQA", func(ctx context.Context, question string) (string, error) {
 		// Retrieve text relevant to the user's question.

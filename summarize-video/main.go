@@ -29,7 +29,7 @@ func main() {
 	ctx := context.Background()
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(&googlegenai.GoogleAI{}),
-		genkit.WithDefaultModel("googleai/gemini-flash-latest"))
+		genkit.WithDefaultModel("googleai/gemini-3.5-flash-lite"))
 
 	// Generate summary
 	resp, err := genkit.Generate(ctx, g,

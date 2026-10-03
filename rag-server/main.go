@@ -31,8 +31,8 @@ provide information from the context along with general knowledge.
 `
 
 func main() {
-	generativeModelName := cmp.Or(os.Getenv("GENKIT_MODEL"), "googleai/gemini-2.5-flash")
-	embeddingModelName := cmp.Or(os.Getenv("EMBEDDING_MODEL"), "gemini-embedding-001")
+	generativeModelName := cmp.Or(os.Getenv("GENKIT_MODEL"), "googleai/gemini-3.5-flash-lite")
+	embeddingModelName := cmp.Or(os.Getenv("EMBEDDING_MODEL"), "googleai/gemini-embedding-001")
 
 	ctx := context.Background()
 
@@ -44,11 +44,9 @@ func main() {
 		APIKey: "", // No auth for local Weaviate
 	}))
 
-	embedder, err := googleAI.DefineEmbedder(g, embeddingModelName, &ai.EmbedderOptions{
-		Dimensions: 768,
-	})
-	if err != nil {
-		log.Fatalf("unable to set up embedder %q: %v", embeddingModelName, err)
+	embedder := genkit.LookupEmbedder(g, embeddingModelName)
+	if embedder == nil {
+		log.Fatalf("embedder %q not registered", embeddingModelName)
 	}
 
 	indexer, retriever, err := weaviate.DefineRetriever(ctx, g, weaviate.ClassConfig{
@@ -62,7 +60,7 @@ func main() {
 
 	model := genkit.LookupModel(g, generativeModelName)
 	if model == nil {
-		log.Fatalf("unable to find model %q: %v", generativeModelName, err)
+		log.Fatalf("model %q not registered", generativeModelName)
 	}
 
 	server := &ragServer{

@@ -43,7 +43,7 @@ func main() {
 	ctx := context.Background()
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(&googlegenai.GoogleAI{}),
-		genkit.WithDefaultModel("googleai/gemini-flash-latest"))
+		genkit.WithDefaultModel("googleai/gemini-3.5-flash-lite"))
 
 	operateLight := genkit.DefineTool(g, "operateLight", "Turns the lights on or off in the living room, kitchen, bedroom or garage",
 		func(ctx *ai.ToolContext, input LightOperation) (string, error) {
@@ -89,13 +89,14 @@ func main() {
 		"Close the garage door and turn off the lights in all rooms.",
 		"Turn off the lights in all rooms and play a movie in which Tom Cruise plays a lawyer in the living room.",
 	}
-	for _, p := range prompts {
-		fmt.Println("Prompt: ", p)
+	for i, p := range prompts {
+		fmt.Printf("Prompt %d: %s\n", i+1, p)
 		resp, err := genkit.Generate(ctx, g, ai.WithSystem(systemPrompt), ai.WithPrompt(p),
 			ai.WithTools(operateLight, operateWindow, operateTV, operateGarage))
 		if err != nil {
 			log.Fatalf("failed to generate response: %v", err)
 		}
 		fmt.Println("Response:", resp.Text())
+		fmt.Println()
 	}
 }
