@@ -8,10 +8,13 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
+	genkitserver "github.com/firebase/genkit/go/plugins/server"
 	"github.com/firebase/genkit/go/plugins/weaviate"
 )
 
@@ -34,7 +37,8 @@ func main() {
 	generativeModelName := cmp.Or(os.Getenv("GENKIT_MODEL"), "googleai/gemini-3.5-flash-lite")
 	embeddingModelName := cmp.Or(os.Getenv("EMBEDDING_MODEL"), "googleai/gemini-embedding-001")
 
-	ctx := context.Background()
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
 	googleAI := &googlegenai.GoogleAI{}
 
@@ -77,8 +81,9 @@ func main() {
 
 	port := cmp.Or(os.Getenv("SERVERPORT"), "9020")
 	address := net.JoinHostPort("localhost", port)
-	log.Println("listening on", address)
-	log.Fatal(http.ListenAndServe(address, mux))
+	if err := genkitserver.Start(ctx, address, mux); err != nil {
+		log.Fatal(err)
+	}
 }
 
 type ragServer struct {
